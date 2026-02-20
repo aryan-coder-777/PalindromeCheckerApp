@@ -1,3 +1,5 @@
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class PalindromeCheckerApp {
@@ -5,25 +7,30 @@ public class PalindromeCheckerApp {
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 5.0");
+        System.out.println("Version : 6.0");
         System.out.println("System initialized successfully.\n");
 
-        // UC5 - Stack Based Palindrome Checker
-        String input = "noon";
+        // UC6 - Queue + Stack Fairness Check
+        String input = "civic";
 
-        // Create a Stack to store characters
+        // Create Queue (FIFO)
+        Queue<Character> queue = new LinkedList<>();
+
+        // Create Stack (LIFO)
         Stack<Character> stack = new Stack<>();
 
-        // Push each character of the string into the stack
+        // Insert each character into both structures
         for (char c : input.toCharArray()) {
+            queue.add(c);
             stack.push(c);
         }
 
         boolean isPalindrome = true;
 
-        // Compare original string with popped characters
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+        // Compare until queue becomes empty
+        while (!queue.isEmpty()) {
+
+            if (!queue.remove().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
