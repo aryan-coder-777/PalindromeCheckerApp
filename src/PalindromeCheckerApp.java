@@ -1,8 +1,10 @@
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
+    /**
+     * Application entry point for UC9
+     */
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -10,33 +12,32 @@ public class PalindromeCheckerApp {
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // Convert to lowercase for case-insensitive comparison
         input = input.toLowerCase();
 
-        // Create a LinkedList to store characters
-        LinkedList<Character> list = new LinkedList<>();
+        boolean result = check(input, 0, input.length() - 1);
 
-        // Add each character to the LinkedList
-        for (char ch : input.toCharArray()) {
-            list.add(ch);
+        if (result) {
+            System.out.println("Is Palindrome? : true");
+        } else {
+            System.out.println("Is Palindrome? : false");
         }
-
-        // Flag to track palindrome status
-        boolean isPalindrome = true;
-
-        // Compare first and last characters until list is empty or one element left
-        while (list.size() > 1) {
-            char first = list.removeFirst();
-            char last = list.removeLast();
-
-            if (first != last) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        System.out.println("Is Palindrome? : " + isPalindrome);
 
         scanner.close();
+    }
+
+    /**
+     * Recursively checks whether a string is palindrome
+     */
+    private static boolean check(String s, int start, int end) {
+
+        if (start >= end) {
+            return true;
+        }
+
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+
+        return check(s, start + 1, end - 1);
     }
 }
