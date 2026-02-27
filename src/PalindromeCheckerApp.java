@@ -1,10 +1,8 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
-    /**
-     * Application entry point for UC10
-     */
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -12,22 +10,46 @@ public class PalindromeCheckerApp {
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // Normalize the string
-        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        PalindromeStrategy strategy = new StackStrategy();
 
-        boolean isPalindrome = true;
+        boolean result = strategy.check(input);
 
-        // Compare characters from both ends
-        for (int i = 0; i < normalized.length() / 2; i++) {
+        System.out.println("Is Palindrome? : " + result);
 
-            if (normalized.charAt(i) != normalized.charAt(normalized.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
+        scanner.close();
+    }
+}
+
+/* =====================================================
+   INTERFACE – PalindromeStrategy
+   ===================================================== */
+
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+/* =====================================================
+   CLASS – StackStrategy
+   ===================================================== */
+
+class StackStrategy implements PalindromeStrategy {
+
+    public boolean check(String input) {
+
+        Stack<Character> stack = new Stack<>();
+
+        // Push characters to stack
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Compare with popped characters
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
             }
         }
 
-        System.out.println("Is Palindrome? : " + isPalindrome);
-
-        scanner.close();
+        return true;
     }
 }
